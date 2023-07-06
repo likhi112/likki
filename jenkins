@@ -1,0 +1,121 @@
+java -version
+
+STEP-3: INSTALLING GIT, MAVEN & JENKINS
+yum install git maven jenkins -y
+
+STEP-4: RESTARTING JENKINS
+
+When we download a service in Linux it will be on stropped state
+
+systemctl start jenkins.service
+systemctl status jenkins.service
+
+STEP-5: CONNECTING TO JENKINS DASHBOARD
+
+public-ip:8080
+
+
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'touch file1'
+            }
+        }
+}
+
+
+
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'touch file1'
+            }
+        }
+        stage('stage-2') {
+            steps {
+                echo '"hai all" > file1'
+            }
+        }
+        stage('stage-3') {
+            steps {
+                sh 'mv file1 raham'
+            }
+        }
+    }
+}
+
+
+
+
+pipeline {
+   agent any
+   environment {
+       name = 'likki'
+       loc = 'hyd'
+   }
+
+   stages {
+       stage('jen-env-vars') {
+           steps {
+               sh '''
+               echo $BUILD_NUMBER
+               echo The job name is: $JOB_NAME
+               '''
+           }
+       }
+       stage('user-defined-vars') {
+           steps {
+               sh '''
+               echo my name is: $name
+               echo im from: $loc
+               '''
+           }
+       }
+   }
+}
+
+
+
+
+PASSING PARAMETERS:
+
+pipeline {
+   agent any
+   environment {
+       name = 'raham'
+       loc = 'hyd'
+   }
+    parameters {
+           string(name: 'person', defaultValue: 'raham shaik', description: "how are you")
+           choice(name: 'server', choices: ['a','b','c'], description: "")
+       }
+
+   stages {
+       stage('jen-env-vars') {
+           steps {
+               sh '''
+               echo $BUILD_NUMBER
+               echo The job name is: $JOB_NAME
+               '''
+           }
+       }
+       stage('user-defined-vars') {
+           steps {
+               sh '''
+               echo my name is: $name
+               echo im from: $loc
+               '''
+           }
+       }
+   }
+}
+
+
